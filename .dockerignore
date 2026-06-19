@@ -1,0 +1,6 @@
+*
+!nodejs_*/
+!nodejs_*/Dockerfile
+!nodejs_*/entrypoint.sh
+!.github/
+!.github/workflows/
