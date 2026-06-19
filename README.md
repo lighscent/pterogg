@@ -18,4 +18,4 @@ Docker images for [Pterodactyl](https://pterodactyl.io)
 All images include: `build-essential`, `ca-certificates`, `curl`, `dnsutils`, `ffmpeg`, `git`, `iproute2`, `iputils-ping`, `libnss3`, `libsqlite3-dev`, `libtool`, `python3`, `python3-dev`, `sqlite3`, `tar`, `tini`, `tzdata`, `zip`.
 
 
-Images are automatically built and pushed to `ghcr.io/pterogg/pterogg` on pushes to `main`.
+Images are automatically built and pushed to `ghcr.io/lighscent/pterogg` on pushes to `main`.
