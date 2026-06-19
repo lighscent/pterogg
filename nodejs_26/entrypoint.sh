@@ -1,4 +1,5 @@
 #!/bin/bash
+clear
 cd /home/container
 
 export TZ=${TZ:-UTC}
