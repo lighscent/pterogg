@@ -4,12 +4,29 @@ on:
   push:
     branches:
       - main
+    paths:
+      - "*/Dockerfile"
+      - "*/entrypoint.sh"
+      - ".github/workflows/build.yml"
 
 env:
   REGISTRY: ghcr.io
 
 jobs:
+  discover:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.find.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: find
+        run: |
+          DIRS=$(find . -maxdepth 2 -name Dockerfile -exec dirname {} \; \
+            | sed 's|^\./||' | sort -u | jq -R -s -c 'split("\n")[:-1]')
+          echo "matrix=$DIRS" >> "$GITHUB_OUTPUT"
+
   build-and-push:
+    needs: discover
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -17,7 +34,7 @@ jobs:
 
     strategy:
       matrix:
-        version: [nodejs_24, nodejs_25, nodejs_26]
+        version: ${{ fromJson(needs.discover.outputs.matrix) }}
 
     steps:
       - name: Checkout repository
@@ -32,7 +49,7 @@ jobs:
 
       - name: Downcase Repo Name
         run: |
-          echo "REPO_LOWER=${GITHUB_REPOSITORY,,}" >> $GITHUB_ENV
+          echo "REPO_LOWER=${GITHUB_REPOSITORY,,}" >> "$GITHUB_ENV"
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5

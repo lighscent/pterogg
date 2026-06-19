@@ -5,14 +5,14 @@ Multi-version Pterodactyl egg + Docker image repo for Node.js (24, 25, 26).
 ## Repo structure
 
 ```
-egg-nodejs.json        — Consolidated PTDL_v2 egg with docker_images for all 3 versions
+egg/egg-nodejs.json        — Consolidated PTDL_v2 egg with docker_images for all 3 versions
 nodejs_24/   nodejs_25/   nodejs_26/
   Dockerfile            — FROM node:<N>-slim, installs common Debian utils, creates `container` user
   entrypoint.sh         — Resolves {{VAR}} Pterodactyl startup placeholders, execs the command
 ```
 
 - `.dockerignore` whitelists only `nodejs_*/`, Dockerfiles, entrypoints, and `.github/`
-- `egg-nodejs.json` exports `docker_images` mapping each version to `ghcr.io/pterogg/pterogg:nodejs_<N>`
+- `egg/egg-nodejs.json` exports `docker_images` mapping each version to `ghcr.io/pterogg/pterogg:nodejs_<N>`
 
 ## CI
 
@@ -22,7 +22,7 @@ nodejs_24/   nodejs_25/   nodejs_26/
 
 1. Copy an existing `nodejs_<N>/` dir to `nodejs_<M>/`
 2. Update `Dockerfile`: `FROM node:<M>-alpine3.21` and LABEL version
-3. Update `egg-nodejs.json`: name, description, docker_images tag, installation container image
+3. Update `egg/egg-nodejs.json`: name, description, docker_images tag, installation container image
 4. Add `<M>` to the build matrix in `.github/workflows/build.yml`
 
 ## Variables (per egg)
